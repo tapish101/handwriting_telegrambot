@@ -9,8 +9,8 @@ import random
 from os import mkdir
 import shutil
 
-bot = telebot.TeleBot("5053392872:AAEEZFlnhRX16MViU94eUSq_ACczPGxHkyc")
-myChatID=1639318508
+bot = telebot.TeleBot(" YOUR BOT TOKEN ")
+myChatID= YOUR CHAT ID, USE @JsonDumpBot
 
 pageW=0  
 pageH=0
