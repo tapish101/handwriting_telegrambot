@@ -36,6 +36,7 @@ width=pageW
 height=pageH
 margin=0
 
+char_map={'^': '^', ' ': 'space', '&': 'and', '*': 'astric', ',': 'comma', '$': 'dollar', '"': 'dquote', '!': 'exclam', '/': 'f_slash', '#': 'hash', '-': 'minus', '%': 'percent', '+': 'plus', "'": 'quote', '_': 'uscore', '(': 'sbracket_l', ')': 'sbracket_r', '.': 'stop', '`': 'ajeeb', '@': 'at', '[': 'bbracket_l', ']': 'bbracket_r', ':': 'colon', '{': 'curly_l', '}': 'curly_r', '|': 'danda', '=': 'equal', '>': 'greaterthan', '<': 'lessthan', '?': 'que', ';': 'semicolon', '~': 'slant', '\\t': 'tab'}
 
 #these variable are to be changes accordingly
 def clear():
@@ -151,81 +152,24 @@ def txtTOimg(txt,message):
     global width,leftmargin
     for i in txt:
 
+        if i.isnumeric():
+            i=str(i)
+        elif i=="\n":
+            i='enter'
+        elif not i.isalpha():
+            i=char_map[i]
+
+
         if i=='^':
             leftmargin=True
             continue
-        elif i==' ':
-            i='space'
+        elif i=='space':
             if(width>1700-267-50):
-                nextline(message)
+                nextline()
                 continue
-        elif i=='\n':
-            nextline(message)
+        elif i=='enter':
+            nextline()
             continue
-        elif i=='&':
-            i='and'
-        elif i=='*':
-            i='astric'
-        elif i==',':
-            i='comma'
-        elif i=='$':
-            i='dollar'
-        elif i=='"':
-            i='dquote'
-        elif i=='!':
-            i='exclam'
-        elif i=='/':
-            i='f_slash'
-        elif i=='#':
-            i='hash'
-        elif i=='-':
-            i='minus'
-        elif i=='%':
-            i='percent'
-        elif i=='+':
-            i='plus'
-        elif i=="'":
-            i='quote'
-        elif i=='_':
-            i='uscore'
-        elif i=='(':
-            i='sbracket_l'
-        elif i==')':
-            i='sbracket_r'
-        elif i=='.':
-            i='stop'
-        elif i.isalpha():
-            i=str(i)
-        elif i=='`':
-            i='ajeeb' 
-        elif i=='@':
-            i='at'
-        elif i=='[':
-            i='bbracket_l'
-        elif i==']':
-            i='bbracket_r'
-        elif i==":":
-            i='colon'
-        elif i=='{':
-            i='curly_l'
-        elif i=='}':
-            i='curly_r'
-        elif i=='|':
-            i='danda'
-        elif i=='=':
-            i='equal'
-        elif i=='>':
-            i='greaterthan'
-        elif i=='<':
-            i='lessthan'
-        elif i=='?':
-            i='que'
-        elif i==';':
-            i='semicolon'
-        elif i=="~":
-            i='slant'
-        elif i=='\t':
-            i='tab'
         
 
         if(leftmargin):
