@@ -9,8 +9,8 @@ import random
 from os import mkdir
 import shutil
 
-bot = telebot.TeleBot(" YOUR BOT TOKEN ")
-myChatID= YOUR CHAT ID, USE @JsonDumpBot
+bot = telebot.TeleBot("<YOUR BOT TOKEN NUMBER>")
+myChatID= <"YOUR CHAT ID">
 
 pageW=0  
 pageH=0
@@ -165,10 +165,10 @@ def txtTOimg(txt,message):
             continue
         elif i=='space':
             if(width>1700-267-50):
-                nextline()
+                nextline(message)
                 continue
         elif i=='enter':
-            nextline()
+            nextline(message)
             continue
         
 
@@ -212,7 +212,7 @@ def send_welcome(message):
         setup(message)
         clear()
     else:
-        bot.send_message(message.chat.id,"Dear "+message.chat.first_name+" you don't have access to this bot.\nContact @tapish101 for permission.")
+        bot.send_message(message.chat.id,"Dear "+message.chat.first_name+" you aren't in permission list.\nFirst add yourself with /addme command.")
 
 
 @bot.message_handler(commands='config')
@@ -300,8 +300,10 @@ def sendVer(message):
 
 @bot.message_handler(commands='del')
 def delete(message):
+    global acc
     try:
         shutil.rmtree(r'output/'+str(message.chat.id))
+        acc=0
         bot.send_message(message.chat.id,"All Your Data Cleared.\nTo start using again use command /start")
     except FileNotFoundError:
         bot.send_message(message.chat.id,"No data found.\nTo use the bot type command /start")
@@ -310,25 +312,42 @@ def delete(message):
 @bot.message_handler(commands='adduser')
 def send_welcome(message):
     global acc
+    if message.chat.id==myChatID:
+        try:
+            usr=message.text.split()
+            bot.send_message(message.chat.id,"User Added "+usr[1])
+            acc=int(usr[1])
+        except IndexError:
+            bot.send_message(message.chat.id,"Use /addUser followed by chat id\n(ex /addUser 8765667786)")
+        except Exception:
+            bot.send_message(message.chat.id,"Something went wrong")
+    else:
+        bot.send_message(message.chat.id,"You don't have the permission.")
+
+
+@bot.message_handler(commands='addme')
+def send_welcome(message):
+    global acc
     try:
-        usr=message.text.split()
-        bot.send_message(message.chat.id,"User Added "+usr[1])
-        acc=int(usr[1])
-    except IndexError:
-        bot.send_message(message.chat.id,"Use /addUser followed by chat id\n(ex /addUser 8765667786)")
+        bot.send_message(message.chat.id,"@"+message.chat.username+" added.\nHit /start again.")
+        acc=int(message.chat.id)
     except Exception:
         bot.send_message(message.chat.id,"Something went wrong")
+
 
 @bot.message_handler(commands='remuser')
 def send_welcome(message):
     global acc
-    try:
-        shutil.move(str(acc), 'deleted '+str(acc))
-    except Exception:
-        pass
-    
-    bot.send_message(message.chat.id,"User removed.")
-    acc=0
+    if message.chat.id==myChatID:
+        try:
+            shutil.move(str(acc), 'deleted '+str(acc))
+        except Exception:
+            pass
+        
+        bot.send_message(message.chat.id,"User removed.")
+        acc=0
+    else:
+        bot.send_message(message.chat.id,"You don't have the permission.")
     
 
 
